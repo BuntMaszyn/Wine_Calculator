@@ -1,0 +1,113 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #a6d2ff;
+  color: rgb(0, 17, 65);
+  line-height: 1.6;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 1em;
+}
+
+.header {
+  text-align: center;
+  letter-spacing: 0.7em
+}
+
+.container {
+  min-width: 515px;
+  max-width: 1024px;
+  margin-left: auto;
+  margin-right: auto;
+
+
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.wrapper {
+  box-shadow: 0.5em 0.1em 1.4em 0 hsla(224, 96%, 22%, 0.75);
+  margin-top: 2em;
+  border-radius: 2em 2em 0 0;
+}
+
+.wrapper>* {
+  padding: 1em;
+}
+
+.form label,
+.form input {
+  display: block;
+  width: auto;
+
+}
+
+.form input {
+  border: 1px solid #a6d2ff;
+  text-align: center;
+  transition: 0.6s;
+  border-radius: 0.6em;
+}
+
+.animationContainer {
+  background: #c5e1f8;
+  justify-content: space-around
+}
+
+.form {
+  background: #e9f1fa;
+  display: grid;
+  grid-template-columns: auto 10em;
+  grid-gap: 0.5em;
+  justify-content: center;
+  border-radius: 2em 2em 0 0;
+}
+
+.spanContainer {
+  justify-content: space-around;
+  background: #e9f1fa;
+}
+
+.button {
+  background: #a6d2ff;
+  border: 0;
+  font-size: 1.2em;
+  transition: 1s;
+  cursor: pointer;
+  border-radius: 0.7em;
+  margin-top: 0.8em;
+  line-height: 1.5em
+}
+
+.button:hover {
+  background: #012b9c;
+  outline: 0;
+  color: white;
+}
+
+input:focus {
+  background: #a6d2ff
+}
+
+.reportContainer {
+  background: #c5e1f8
+}
+
+.animationDiv {
+  width: 40vh;
+  height: 40vh;
+  border: 0.5em solid blue;
+  border-top: none;
+  border-radius: 15vh;
+  background-image: linear-gradient(#c5e1f8 45%, rgb(194, 43, 43) 45%);
+  box-shadow: 0.2em 0.2em 0.4em 0 hsla(224, 96%, 22%, 0.75);
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
