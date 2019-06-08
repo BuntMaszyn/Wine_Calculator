@@ -2,14 +2,19 @@ import React, { Component } from "react";
 import "./App.css";
 
 class WineCalculator extends Component {
+  constructor(props) {
+    super(props);
+    this.myRef = React.createRef(); // Create a ref object
+  }
+
   state = {
-    bo: 13,
-    juice: 20,
-    water: 20,
+    bo: 26,
+    juice: 10,
+    water: 0,
     waterAdd: 0,
-    sugarAdd: 500,
-    bx: -1,
-    success: false,
+    sugarAdd: 0,
+    bx: 0,
+    // success: false,
     allCalculated: false
   };
 
@@ -58,7 +63,8 @@ class WineCalculator extends Component {
     // teoretyczna ilosc cukru w nastawie po doslodzeniu
     let sugarWhole = allSugarInInitialWine + sugarAdd;
     // skorygowana poprawka na niecukry uwzględniająca dodaną wodę i dosładzanie
-    let popWithAdditions = 4 * (juice / (juice + waterAdd + water));
+    let popWithAdditions =
+      4 * (juice / (juice + waterAdd + water + sugarAddVolume));
     console.log(
       "skorygowana poprawka na niecukry uwzględniająca dodaną wodę i dosładzanie: " +
         popWithAdditions
@@ -74,29 +80,35 @@ class WineCalculator extends Component {
     let finalAlkoVol = allFermentedSugarPerLiter / 16.9;
     console.log(finalAlkoVol);
 
-    this.setState({
-      pop: parseFloat(pop),
-      boPop: parseFloat(boPop),
-      sugarInitial: parseFloat(sugarInitial),
-      sugarInitialVolume: parseFloat(sugarInitialVolume),
-      waterInitial: parseFloat(waterInitial),
-      waterInitialVolume: parseFloat(waterInitialVolume),
-      wineInitialKgVolume: parseFloat(wineInitialKgVolume),
-      sugarInLiterOfInitialWine: parseFloat(sugarInLiterOfInitialWine),
-      allSugarInInitialWine: parseFloat(allSugarInInitialWine),
-      sugarAddVolume: parseFloat(sugarAddVolume),
-      sugarWhole: parseFloat(sugarWhole),
-      popWithAdditions: parseFloat(popWithAdditions),
-      volumeOfAllUsed: parseFloat(volumeOfAllUsed),
-      potentialSugarPerLiter: parseFloat(potentialSugarPerLiter),
-      potentialAlkoToProduce: parseFloat(potentialAlkoToProduce),
-      popAlko: parseFloat(popAlko),
-      bxWithPops: parseFloat(bxWithPops),
-      sugarRest: parseFloat(sugarRest),
-      allFermentedSugarPerLiter: parseFloat(allFermentedSugarPerLiter),
-      finalAlkoVol: parseFloat(finalAlkoVol),
-      allCalculated: true
-    });
+    this.setState(
+      {
+        pop: parseFloat(pop),
+        boPop: parseFloat(boPop),
+        sugarInitial: parseFloat(sugarInitial),
+        sugarInitialVolume: parseFloat(sugarInitialVolume),
+        waterInitial: parseFloat(waterInitial),
+        waterInitialVolume: parseFloat(waterInitialVolume),
+        wineInitialKgVolume: parseFloat(wineInitialKgVolume),
+        sugarInLiterOfInitialWine: parseFloat(sugarInLiterOfInitialWine),
+        allSugarInInitialWine: parseFloat(allSugarInInitialWine),
+        sugarAddVolume: parseFloat(sugarAddVolume),
+        sugarWhole: parseFloat(sugarWhole),
+        popWithAdditions: parseFloat(popWithAdditions),
+        volumeOfAllUsed: parseFloat(volumeOfAllUsed),
+        potentialSugarPerLiter: parseFloat(potentialSugarPerLiter),
+        potentialAlkoToProduce: parseFloat(potentialAlkoToProduce),
+        popAlko: parseFloat(popAlko),
+        bxWithPops: parseFloat(bxWithPops),
+        sugarRest: parseFloat(sugarRest),
+        allFermentedSugarPerLiter: parseFloat(allFermentedSugarPerLiter),
+        finalAlkoVol: parseFloat(finalAlkoVol),
+        allCalculated: true
+      },
+      () => {
+        window.scrollTo(0, this.myRef.current.offsetTop);
+      }
+    );
+
     console.log(this.state);
   };
 
@@ -105,10 +117,11 @@ class WineCalculator extends Component {
     let val = parseFloat(e.target.value);
     // console.log(`Bo ${val}`);
     // console.log(typeof val);
-    if (val === "" || val > 30 || val < -4) {
+    if (Number.isNaN(val) || val > 30 || val < -4) {
       alert(
-        "Błąd: początkowa gęstość nie może być większa od 25 ani mniejsza od -4 Blg, pole nie może być puste"
+        "Błąd: początkowa gęstość nie może być większa od 30 ani mniejsza od -4 Blg, pole nie może być puste"
       );
+      document.querySelector(".bo").value = 0;
     } else {
       this.setState({
         bo: val
@@ -118,8 +131,11 @@ class WineCalculator extends Component {
 
   setJuice = e => {
     let val = parseFloat(e.target.value);
-    if (val === "" || val < 0) {
-      alert("Błąd: pole nie może być puste, wartości ujemne są wykluczone");
+    console.log(val);
+    if (Number.isNaN(val) || val <= 0) {
+      alert(
+        "Błąd: pole nie może być puste, nie można robić wina z 0 litra lub mniej soku"
+      );
     } else {
       console.log(val);
       this.setState({
@@ -130,7 +146,7 @@ class WineCalculator extends Component {
 
   setWater = e => {
     let val = parseFloat(e.target.value);
-    if (val === "" || val < 0) {
+    if (Number.isNaN(val) || val < 0) {
       alert("Błąd: pole nie może być puste, wartości ujemne są wykluczone");
     } else {
       this.setState({
@@ -141,7 +157,7 @@ class WineCalculator extends Component {
 
   setWaterAdd = e => {
     let val = parseFloat(e.target.value);
-    if (val === "" || val < 0) {
+    if (Number.isNaN(val) || val < 0) {
       alert("Błąd: pole nie może być puste, wartości ujemne są wykluczone");
     } else {
       this.setState({
@@ -152,7 +168,7 @@ class WineCalculator extends Component {
 
   setSugarAdd = e => {
     let val = parseFloat(e.target.value);
-    if (val === "" || val < 0) {
+    if (Number.isNaN(val) || val < 0) {
       alert("Błąd: pole nie może być puste, wartości ujemne są wykluczone");
     } else {
       this.setState({
@@ -163,10 +179,11 @@ class WineCalculator extends Component {
 
   setBx = e => {
     let val = parseFloat(e.target.value);
-    if (val === "" || val > 30 || val < -4) {
+    if (Number.isNaN(val) || val > 30 || val < -4) {
       alert(
         "Błąd: końcowa gęstość nie może być większa od 30 ani mniejsza od -4 Blg, pole nie może być puste"
       );
+      document.querySelector(".bx").value = 0;
     } else {
       this.setState({
         bx: val
@@ -174,27 +191,25 @@ class WineCalculator extends Component {
     }
   };
 
-  // // metoda powrotu do pustego formularza
-  // reset = () => {
-  //   this.setState({
-  //     name: "",
-  //     surname: "",
-  //     success: false
-  //   });
-  // };
+  reset = e => {
+    e.preventDefault();
 
-  // render zaczyna sie od warunku state
+    // document.querySelector(".reportRef").style.display = "none";
+    this.setState({
+      bo: 26,
+      juice: 10,
+      water: 0,
+      waterAdd: 0,
+      sugarAdd: 0,
+      bx: 0,
+      allCalculated: false
+      // sugarRest: false
+    });
+    document.querySelector(".bo").value = this.state.bo;
+    document.querySelector(".bx").value = this.state.bx;
+  };
+
   render() {
-    // po wyslaniu state.succes = true
-    // if (this.state.success) {
-    //   return (
-    //     <>
-    //       <h1>Formularz został wysłany. Dzieki {this.state.name} !</h1>
-    //       <button onClick={this.reset}>Dodaj kolejną osobę</button>
-    //     </>
-    //   );
-    // }
-    // przed wysłaniem: formularz z metodą on Submit oraz inputy dla name i surname i metodami onChange
     return (
       <>
         <div className="container">
@@ -218,9 +233,10 @@ class WineCalculator extends Component {
                 3) Wskazania gęstościomierzą przed fermentacją [Blg]:
               </label>
               <input
+                className="bo"
                 type="number"
                 defaultValue={this.state.bo}
-                onChange={this.setBo}
+                onBlur={this.setBo}
               />
 
               <label> 4) Cukier dodany przed/podczas fermentacji [g]:</label>
@@ -240,26 +256,40 @@ class WineCalculator extends Component {
                 6) Wskazania gęstościomierzą po zakończeniu fermentacji [Blg]:
               </label>
               <input
+                className="bx"
                 type="number"
-                value={this.state.bx}
-                onChange={this.setBx}
+                defaultValue={this.state.bx}
+                onBlur={this.setBx}
               />
               <div />
               <button className="button" type="submit">
                 Oblicz
               </button>
-              {/* <input type="submit" value="Oblicz" /> */}
+              <div />
+              <button className="button button2" onClick={this.reset}>
+                Reset
+              </button>
             </form>
 
-            <div className="animationContainer flex">
+            {/* <div className="animationContainer flex">
               <PreFermentation />
               <PostFermentation />
+            </div> */}
+
+            <div className="sweetContainer flex">
+              {this.state.allCalculated ? (
+                <Sweetness props={this.state.sugarRest} />
+              ) : (
+                <SweetnessInitial props={this.state.sugarRest} />
+              )}
             </div>
-            <div className="spanContainer flex">
-              <Sweetness />
-            </div>
-            <div className="reportContainer">
-              <Report props={this.state} />
+
+            <div ref={this.myRef} className="reportRef">
+              {this.state.allCalculated ? (
+                <Report props={this.state} />
+              ) : (
+                <div />
+              )}
             </div>
           </div>
         </div>
@@ -294,35 +324,171 @@ class PostFermentation extends Component {
   }
 }
 
-class Sweetness extends Component {
-  render() {
-    return (
-      <>
-        <span>Wytrawne</span>
-        <span>Półwytrawne</span>
-        <span>Półsłodkie</span>
-        <span>Słodkie</span>
-        <span>Deserowe</span>
-      </>
-    );
-  }
-}
+const style = {
+  border: "1px solid black",
+  borderRadius: "50%",
+  lineHeight: "3em",
+  width: "10em",
+  justifyContent: "center",
+  backgroundColor: "#a6d2ff",
+  display: "flex",
+  alignItems: "center",
+  margin: "1em"
+};
+
+// wina wytrawne mają zawartość cukru poniżej 4 g/l, półwytrawne do 12 g/l, półsłodkie do 45 g/l, a słodkie powyżej tej normy
+
+const Sweetness = e => {
+  console.log(e);
+  let a = e.props;
+  return (
+    <>
+      {a <= 4 ? (
+        <div
+          style={{
+            ...style,
+            background: "red",
+            transform: "scale(1.4)"
+          }}
+        >
+          Wytrawne
+        </div>
+      ) : (
+        <div style={{ ...style, background: "#a6d2ff" }}>Wytrawne</div>
+      )}
+      {a > 4 && a <= 12 ? (
+        <div style={{ ...style, background: "red", transform: "scale(1.4)" }}>
+          Półwytrawne
+        </div>
+      ) : (
+        <div style={{ ...style, background: "#a6d2ff" }}>Półwytrawne</div>
+      )}
+      {a > 12 && a <= 45 ? (
+        <div style={{ ...style, background: "red", transform: "scale(1.4)" }}>
+          Półsłodkie
+        </div>
+      ) : (
+        <div style={{ ...style, background: "#a6d2ff" }}>Półsłodkie</div>
+      )}
+      {a > 45 ? (
+        <div style={{ ...style, background: "red", transform: "scale(1.4)" }}>
+          Słodkie
+        </div>
+      ) : (
+        <div style={{ ...style, background: "#a6d2ff" }}>Słodkie</div>
+      )}
+    </>
+  );
+};
+
+const SweetnessInitial = e => {
+  console.log(e);
+  let a = e.props;
+  return (
+    <>
+      <div style={{ ...style, background: "#a6d2ff" }}>Wytrawne</div>
+      <div style={{ ...style, background: "#a6d2ff" }}>Wytrawne</div>
+      <div style={{ ...style, background: "#a6d2ff" }}>Wytrawne</div>
+      <div style={{ ...style, background: "#a6d2ff" }}>Wytrawne</div>
+    </>
+  );
+};
 
 const Report = e => {
   console.log(e);
-  if (e.props.allCalculated) {
-    return (
-      <>
-        <p>RAPORT</p>
-      </>
-    );
-  } else {
-    return (
-      <>
-        <p>To jest miejsce na raport</p>
-      </>
-    );
-  }
+  return (
+    <>
+      <div className="reportContainer flex">
+        <div className="reportList">
+          <h3>Winiarzu, nastawiłeś wino o następujących parametrach:</h3>
+          <ul>
+            <li>Sok owocowy: {e.props.juice} l</li>
+            {e.props.water !== 0 || e.props.water !== "" ? (
+              <li>Woda: {e.props.water} l</li>
+            ) : (
+              <li>nie dodano wody</li>
+            )}
+            <li>Wskazania gęstościomierza: {e.props.bo} Blg</li>
+            <li>Poprawka na niecukry: {e.props.pop.toFixed(2)} Blg </li>
+            <li>
+              W jednym kilogramie nastawu znajduje się{" "}
+              {Math.floor(e.props.sugarInitial)} g czyli{" "}
+              {Math.floor(e.props.sugarInitialVolume)} ml cukru oraz{" "}
+              {Math.floor(e.props.waterInitialVolume)} ml wody
+            </li>
+            <li>
+              Całkowita ilość cukru w {e.props.water + e.props.juice} l nastawu
+              to: {Math.floor(e.props.allSugarInInitialWine)} g{" "}
+            </li>
+          </ul>
+          {e.props.sugarAdd !== 0 || e.props.waterAdd !== 0 ? (
+            <div className="reportList optionalReport">
+              <h3>Do początkowego nastawu dodałeś:</h3>
+              <ul>
+                {e.props.sugarAdd !== 0 ? (
+                  <li>Dosłodzono cukrem w ilości: {e.props.sugarAdd} g</li>
+                ) : (
+                  <li>Nie dosładzano</li>
+                )}
+                {e.props.waterAdd !== 0 ? (
+                  <li>Dolano wody w ilości: {e.props.waterAdd} l</li>
+                ) : (
+                  <li>Nie dolewano wody</li>
+                )}
+                {e.props.pop !== e.props.popWithAdditions ? (
+                  <li>
+                    {console.log(e.props.popWithAdditions.toFixed(2), "ada")}
+                    Skorygowana poprawka na niecukry:{" "}
+                    {e.props.popWithAdditions.toFixed(2)} Blg
+                  </li>
+                ) : (
+                  <></>
+                )}
+                <li>
+                  Objętość z uwględnieniem dodatków:{" "}
+                  {e.props.volumeOfAllUsed.toFixed(2)} l
+                </li>
+              </ul>
+            </div>
+          ) : (
+            <div />
+          )}
+        </div>
+
+        <div className="reportList">
+          <h3>Po fermentacji:</h3>
+          <ul>
+            <li>
+              W litrze nastawu było:{" "}
+              {Math.floor(e.props.potentialSugarPerLiter)} g cukru co dawało
+              potencjalną możliwość uzyskania{" "}
+              {e.props.potentialAlkoToProduce.toFixed(2)} % alkoholu
+            </li>
+            <li>
+              Wskazania gęstościomierza po fermentacji: {e.props.bx.toFixed(2)}{" "}
+              Blg
+            </li>
+            <li>
+              Poprawka gęstościowa na zawartość alkoholu:{" "}
+              {e.props.popAlko.toFixed(2)} Blg{" "}
+            </li>
+            <li>
+              Skorygowane wskazanie gęstościomierza:{" "}
+              {e.props.bxWithPops.toFixed(2)} Blg{" "}
+            </li>
+            <li>
+              Cukier przefermentowany{" "}
+              {e.props.allFermentedSugarPerLiter.toFixed(2)} g/l{" "}
+            </li>
+            <li>
+              Cukier resztkowy (słodkość) {e.props.sugarRest.toFixed(2)} g/l{" "}
+            </li>
+            <li>Finalna moc wina {e.props.finalAlkoVol.toFixed(2)} % alk </li>
+          </ul>
+        </div>
+      </div>
+    </>
+  );
 };
 
 const App = () => {

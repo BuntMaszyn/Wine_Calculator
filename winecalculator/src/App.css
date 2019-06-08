@@ -3,18 +3,21 @@
   padding: 0;
   box-sizing: border-box;
 }
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   background: #a6d2ff;
   color: rgb(0, 17, 65);
   line-height: 1.6;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   padding: 1em;
 }
 
 .header {
   text-align: center;
-  letter-spacing: 0.7em
+  letter-spacing: 0.7em;
 }
 
 .container {
@@ -22,14 +25,13 @@ body {
   max-width: 1024px;
   margin-left: auto;
   margin-right: auto;
-
-
 }
 
 .flex {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  justify-content: space-around;
 }
 
 .wrapper {
@@ -38,7 +40,7 @@ body {
   border-radius: 2em 2em 0 0;
 }
 
-.wrapper>* {
+.wrapper > * {
   padding: 1em;
 }
 
@@ -46,7 +48,6 @@ body {
 .form input {
   display: block;
   width: auto;
-
 }
 
 .form input {
@@ -54,11 +55,12 @@ body {
   text-align: center;
   transition: 0.6s;
   border-radius: 0.6em;
+  outline: 0;
 }
 
 .animationContainer {
-  background: #c5e1f8;
-  justify-content: space-around
+  background: #ffffff;
+  justify-content: space-around;
 }
 
 .form {
@@ -70,7 +72,7 @@ body {
   border-radius: 2em 2em 0 0;
 }
 
-.spanContainer {
+.sweetContainer {
   justify-content: space-around;
   background: #e9f1fa;
 }
@@ -83,7 +85,12 @@ body {
   cursor: pointer;
   border-radius: 0.7em;
   margin-top: 0.8em;
-  line-height: 1.5em
+  line-height: 1.5em;
+  outline: 0;
+}
+
+.button2 {
+  margin: 0;
 }
 
 .button:hover {
@@ -93,11 +100,11 @@ body {
 }
 
 input:focus {
-  background: #a6d2ff
+  background: #a6d2ff;
 }
 
 .reportContainer {
-  background: #c5e1f8
+  background: #ffffff;
 }
 
 .animationDiv {
@@ -110,4 +117,17 @@ input:focus {
   box-shadow: 0.2em 0.2em 0.4em 0 hsla(224, 96%, 22%, 0.75);
   margin-top: 1em;
   margin-bottom: 1em;
+}
+
+.reportList {
+  width: 30%;
+  min-width: 400px;
+}
+
+.reportList ul {
+  font-size: 1em;
+}
+
+.reportRef {
+  padding: 0;
 }
