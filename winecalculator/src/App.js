@@ -271,10 +271,9 @@ class WineCalculator extends Component {
               </button>
             </form>
 
-            {/* <div className="animationContainer flex">
-              <PreFermentation />
-              <PostFermentation />
-            </div> */}
+            <div className="animationContainer flex">
+              <PreFermentation props={this.state} />
+            </div>
 
             <div className="sweetContainer flex">
               {this.state.allCalculated ? (
@@ -298,31 +297,21 @@ class WineCalculator extends Component {
   }
 }
 
-class PreFermentation extends Component {
-  render() {
-    return (
-      <>
-        <div>
-          <span>Fermentowano:</span>
-          <div className="animationDiv" />
-        </div>
-      </>
-    );
-  }
-}
-
-class PostFermentation extends Component {
-  render() {
-    return (
-      <>
-        <div>
-          <span>Uzyskano wino:</span>
-          <div className="animationDiv" />
-        </div>
-      </>
-    );
-  }
-}
+const PreFermentation = e => {
+  console.log(e);
+  return (
+    <>
+      <div className="circle">
+        <div className="wave" />
+      </div>
+      {e.props.allCalculated ? (
+        <h1>Uzyskałeś {e.props.finalAlkoVol.toFixed(2)} % alkoholu i wino:</h1>
+      ) : (
+        <></>
+      )}
+    </>
+  );
+};
 
 const style = {
   border: "1px solid black",
@@ -382,14 +371,12 @@ const Sweetness = e => {
 };
 
 const SweetnessInitial = e => {
-  console.log(e);
-  let a = e.props;
   return (
     <>
       <div style={{ ...style, background: "#a6d2ff" }}>Wytrawne</div>
-      <div style={{ ...style, background: "#a6d2ff" }}>Wytrawne</div>
-      <div style={{ ...style, background: "#a6d2ff" }}>Wytrawne</div>
-      <div style={{ ...style, background: "#a6d2ff" }}>Wytrawne</div>
+      <div style={{ ...style, background: "#a6d2ff" }}>Półwytrawne</div>
+      <div style={{ ...style, background: "#a6d2ff" }}>Półsłodkie</div>
+      <div style={{ ...style, background: "#a6d2ff" }}>Słodkie</div>
     </>
   );
 };
